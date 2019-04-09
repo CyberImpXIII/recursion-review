@@ -11,7 +11,7 @@ var stringifyJSON = function(obj) {
 
   //if obj is string 
   if(typeof obj === 'string') {
-    return `"obj"`;
+    return `"${obj}"`;
   }
 
   //if obj is a number or boolean
@@ -21,7 +21,7 @@ var stringifyJSON = function(obj) {
   }
 
   //if obj is null
-  if(typeof obj === 'null') {
+  if(obj === null) {
     return 'null';
   }
 
@@ -31,19 +31,18 @@ var stringifyJSON = function(obj) {
     for(var i =0; i<obj.length; i++){
       newArray.push(stringifyJSON(obj[i]));
     }
-    output = "[" + newArray.join(",") + "]";
+    output += "[" + newArray.join(",") + "]";
     return output;
   }
   //
   //if obj is an object
   if(typeof obj === "object"){
-    var stringObject = "";
     for(key in obj){
-      if(!obj[key]===undefined || !typeof obj[key] === "function"){
-      stringObject += stringifyJSON(key) + ":" + stringifyJSON(obj[key]) + ",";
+      if(obj[key]!==undefined && typeof obj[key] !== "function"){
+      output += stringifyJSON(key) + ":" + stringifyJSON(obj[key]) + ",";
       }
     }
-    output += "{" + stringObject.slice(0, stringObject.length-1) + "}"; 
+    output = "{" + output.slice(0, output.length-1) + "}"; 
     return output;
   }
   //
@@ -56,6 +55,7 @@ stringifyJSON(null);
 stringifyJSON([]);
 stringifyJSON([1, 2, ['a', 'b', 'c']]);
 stringifyJSON({name: 'bob', age: 1});
+stringifyJSON({});
 
 
 
